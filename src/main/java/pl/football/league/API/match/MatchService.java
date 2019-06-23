@@ -1,15 +1,15 @@
 package pl.football.league.API.match;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class MatchService {
 
-    @Autowired
+    @Resource
     private MatchRepository matchRepository;
 
     public List<Match> getAllMatches(){

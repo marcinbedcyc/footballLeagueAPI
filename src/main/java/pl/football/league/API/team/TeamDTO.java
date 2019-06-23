@@ -1,11 +1,8 @@
 package pl.football.league.API.team;
 
 import pl.football.league.API.coach.CoachDTO;
-import pl.football.league.API.fan.FanDTO;
 
 import java.sql.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TeamDTO {
      /**
@@ -48,11 +45,6 @@ public class TeamDTO {
       */
      private CoachDTO coach;
 
-     /**
-      * Zbiór kibiców, którzy wspierają drużynę
-      */
-     private Set<FanDTO> teamFans;
-
      public TeamDTO(Team team){
           name = team.getName();
           teamID = team.getTeamID();
@@ -62,7 +54,6 @@ public class TeamDTO {
           loses = team.getLoses();
           creationDate = team.getCreationDate();
           coach = new CoachDTO(team.getCoach());
-          teamFans = team.getTeamFans().stream().map(FanDTO::new).collect(Collectors.toSet());
      }
 
      public long getTeamID() {
@@ -127,13 +118,5 @@ public class TeamDTO {
 
      public void setCoach(CoachDTO coach) {
           this.coach = coach;
-     }
-
-     public Set<FanDTO> getTeamFans() {
-          return teamFans;
-     }
-
-     public void setTeamFans(Set<FanDTO> teamFans) {
-          this.teamFans = teamFans;
      }
 }

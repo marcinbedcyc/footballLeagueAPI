@@ -1,10 +1,6 @@
 package pl.football.league.API.footballer;
 
-import pl.football.league.API.fan.FanDTO;
 import pl.football.league.API.team.TeamDTO;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class FootballerDTO {
     /**
@@ -37,11 +33,6 @@ public class FootballerDTO {
      */
     private TeamDTO team;
 
-    /**
-     * Zbiór kibiców, którzy wspierają piłkarza reprezentowanego przez obiekt tej klasy
-     */
-    private Set<FanDTO> fans;
-
     public FootballerDTO(){
 
     }
@@ -53,7 +44,6 @@ public class FootballerDTO {
         number = footballer.getNumber();
         footballerID = footballer.getFootballerID();
         team = new TeamDTO(footballer.getTeam());
-        fans = footballer.getFans().stream().map(FanDTO::new).collect(Collectors.toSet());
     }
 
     public long getFootballerID() {
@@ -102,13 +92,5 @@ public class FootballerDTO {
 
     public void setTeam(TeamDTO team) {
         this.team = team;
-    }
-
-    public Set<FanDTO> getFans() {
-        return fans;
-    }
-
-    public void setFans(Set<FanDTO> fans) {
-        this.fans = fans;
     }
 }

@@ -1,26 +1,15 @@
 package pl.football.league.API.footballer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.football.league.API.fan.FanDTO;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class FootballerController {
-    /*
-    - dodawanie pilkarza
-    - edycja pilkarza
-    - wyszukiwanie po druzynie
-    - wypisanie jego druzyny
-    - wypisanie pilkarza
-    - wypisanie pilkarzy
-    - wypisanie jego fanów
-     */
-
-    @Autowired
+    @Resource
     private FootballerService footballerService;
 
     @RequestMapping("/footballers")
@@ -28,19 +17,26 @@ public class FootballerController {
         return footballerService.getAllFootballers();
     }
 
-    @RequestMapping(value =  "/footballers/add", method = RequestMethod.POST)
+    @PostMapping("/footballers/add")
     public void addFootballer(@RequestBody Footballer footballer){
         footballerService.addFootballer(footballer);
     }
 
-    @RequestMapping(value = "/footballers/update", method = RequestMethod.PUT)
-    public void updateFootballer(@RequestBody Footballer footballer){
-        footballerService.addFootballer(footballer);
+    @PutMapping("/footballers/{id}/update")
+    public void updateFootballer(@RequestBody Footballer footballer, @PathVariable long id){
+        if(footballer.getFootballerID() == id)
+            footballerService.addFootballer(footballer);
     }
 
-    @RequestMapping(value =  "/footballers/delete", method = RequestMethod.DELETE)
-    public void deleteFootballer(@RequestBody Footballer footballer){
-        footballerService.deleteFootballer(footballer);
+    @DeleteMapping("/footballers/{id}/delete")
+    public void deleteFootballer(@RequestBody Footballer footballer, @PathVariable long id){
+        if(footballer.getFootballerID() == id)
+            footballerService.deleteFootballer(footballer);
+    }
+
+    @RequestMapping("/footballers/{id}/fans")
+    public Set<FanDTO> getFans(@PathVariable long id){
+        return footballerService.getFans(id);
     }
 
 }

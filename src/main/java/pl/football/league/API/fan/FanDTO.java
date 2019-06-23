@@ -1,11 +1,5 @@
 package pl.football.league.API.fan;
 
-import pl.football.league.API.footballer.FootballerDTO;
-import pl.football.league.API.team.TeamDTO;
-
-import java.util.Set;
-import java.util.stream.Collectors;
-
 public class FanDTO {
     /**
      * Identyfikator kibica
@@ -37,16 +31,6 @@ public class FanDTO {
      */
     private  String password;
 
-    /**
-     * Zbiór wspieranych piłkarzy przez kibica
-     */
-    private Set<FootballerDTO> supportedFootballers;
-
-    /**
-     * Zbiór wspieranych drużyn przez kibica
-     */
-    private Set<TeamDTO> supportedTeams;
-
     public FanDTO(){
 
     }
@@ -57,9 +41,6 @@ public class FanDTO {
         surname = fan.getSurname();
         nickname = fan.getNickname();
         password = fan.getPassword();
-        if(fan.getSupportedFootballers() != null)
-            supportedFootballers = fan.getSupportedFootballers().stream().map(FootballerDTO::new).collect(Collectors.toSet());
-        supportedTeams = fan.getSupportedTeams().stream().map(TeamDTO::new).collect(Collectors.toSet());
     }
 
     public long getFanID() {
@@ -108,21 +89,5 @@ public class FanDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Set<FootballerDTO> getSupportedFootballers() {
-        return supportedFootballers;
-    }
-
-    public void setSupportedFootballers(Set<FootballerDTO> supportedFootballers) {
-        this.supportedFootballers = supportedFootballers;
-    }
-
-    public Set<TeamDTO> getSupportedTeams() {
-        return supportedTeams;
-    }
-
-    public void setSupportedTeams(Set<TeamDTO> supportedTeams) {
-        this.supportedTeams = supportedTeams;
     }
 }

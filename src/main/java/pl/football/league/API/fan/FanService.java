@@ -2,13 +2,21 @@ package pl.football.league.API.fan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.football.league.API.footballer.Footballer;
+import pl.football.league.API.footballer.FootballerDTO;
+import pl.football.league.API.team.Team;
+import pl.football.league.API.team.TeamDTO;
 
+import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FanService {
-    @Autowired
+    @Resource
     private FanRepository fanRepository;
 
     public List<FanDTO> getAllFans(){
@@ -30,5 +38,15 @@ public class FanService {
 
     public void deleteFan(Fan fan){
         fanRepository.delete(fan);
+    }
+
+    public Set<TeamDTO> getSupportedTeams(long id){
+        Fan fan = fanRepository.findById(id).get();
+        return fan.getSupportedTeams().stream().map(TeamDTO::new).collect(Collectors.toSet());
+    }
+
+    public Set<FootballerDTO> getSupportedFootballers(long id){
+        Fan fan = fanRepository.findById(id).get();
+        return fan.getSupportedFootballers().stream().map(FootballerDTO::new).collect(Collectors.toSet());
     }
 }

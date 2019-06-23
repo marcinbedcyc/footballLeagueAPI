@@ -1,12 +1,11 @@
 package pl.football.league.API.team;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.football.league.API.fan.FanDTO;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class TeamController {
@@ -18,7 +17,7 @@ public class TeamController {
        - usuniecie druzyny
      */
 
-    @Autowired
+    @Resource
     private TeamService teamService;
 
     @RequestMapping("/teams")
@@ -26,19 +25,26 @@ public class TeamController {
         return teamService.getAllTeams();
     }
 
-    @RequestMapping(value = "/teams/delete", method = RequestMethod.DELETE)
-    public void deleteTeam(@RequestBody Team team){
-        teamService.deleteTeam(team);
+    @DeleteMapping("/teams/{id}/delete")
+    public void deleteTeam(@RequestBody Team team, @PathVariable long id){
+        if(team.getTeamID() == id)
+            teamService.deleteTeam(team);
     }
 
-    @RequestMapping(value = "/teams/add", method = RequestMethod.POST)
+    @PostMapping("/teams/add")
     public void addTeam(@RequestBody Team team){
         teamService.addTeam(team);
     }
 
-    @RequestMapping(value = "/teams/delete", method = RequestMethod.PUT)
-    public void updateTeam(@RequestBody Team team){
-        teamService.updateTeam(team);
+    @PutMapping("/teams/{id}/update")
+    public void updateTeam(@RequestBody Team team, @PathVariable long id){
+        if(team.getTeamID() == id)
+            teamService.updateTeam(team);
+    }
+
+    @RequestMapping("/teams/{id}/fans")
+    public Set<FanDTO> getFans(@PathVariable long id){
+        return teamService.getFans(id);
     }
 
 }

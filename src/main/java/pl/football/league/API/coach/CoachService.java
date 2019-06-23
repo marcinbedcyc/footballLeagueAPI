@@ -1,15 +1,15 @@
 package pl.football.league.API.coach;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class CoachService {
 
-    @Autowired
+    @Resource
     private CoachRepository coachRepository;
 
     public List<CoachDTO> getAllCoaches(){

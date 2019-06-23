@@ -1,17 +1,17 @@
 package pl.football.league.API.fan;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.football.league.API.footballer.FootballerDTO;
+import pl.football.league.API.team.TeamDTO;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class FanController {
 
-    @Autowired
+    @Resource
     private FanService fanService;
 
     @RequestMapping("/fans")
@@ -19,18 +19,31 @@ public class FanController {
         return fanService.getAllFans();
     }
 
-    @RequestMapping(value =  "/fans/add", method = RequestMethod.POST)
+    @PostMapping("/fans/add")
     public void addFan(@RequestBody Fan fan){
         fanService.addFan(fan);
     }
 
-    @RequestMapping(value = "/fans/update", method = RequestMethod.PUT)
-    public void updateFan(@RequestBody Fan fan){
-        fanService.updateFan(fan);
+    @PutMapping("/fans/{id}/update")
+    public void updateFan(@RequestBody Fan fan, @PathVariable long id){
+        if(fan.getFanID() == id)
+            fanService.updateFan(fan);
     }
 
-    @RequestMapping(value = "/fans/delete", method = RequestMethod.DELETE)
-    public void deleteFan(@RequestBody Fan fan){
-        fanService.deleteFan(fan);
+    @DeleteMapping("/fans/{id}/delete")
+    public void deleteFan(@RequestBody Fan fan, @PathVariable long id){
+        if(fan.getFanID() == id)
+            fanService.deleteFan(fan);
     }
+
+    @RequestMapping("/fans/{id}/supportedTeams")
+    public Set<TeamDTO> getSupportedTeams(@PathVariable long id){
+        return fanService.getSupportedTeams(id);
+    }
+
+    @RequestMapping("/fans/{id}/supportedFootballers")
+    public Set<FootballerDTO> getSupportedFootballers(@PathVariable long id){
+        return  fanService.getSupportedFootballers(id);
+    }
+
 }

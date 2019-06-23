@@ -1,19 +1,24 @@
 package pl.football.league.API.footballer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.football.league.API.fan.Fan;
+import pl.football.league.API.fan.FanDTO;
 
+import javax.annotation.Resource;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FootballerService {
 
-    @Autowired
-    private FootballerRepository footballerRespository;
+    @Resource
+    private FootballerRepository footballerRepository;
 
     public List<FootballerDTO> getAllFootballers(){
-        Iterable<Footballer> footballers = footballerRespository.findAll();
+        Iterable<Footballer> footballers = footballerRepository.findAll();
         List<FootballerDTO> footballersDTO = new LinkedList<>();
         for(Footballer f : footballers){
             footballersDTO.add(new FootballerDTO(f));
@@ -22,14 +27,19 @@ public class FootballerService {
     }
 
     public void addFootballer(Footballer footballer){
-        footballerRespository.save(footballer);
+        footballerRepository.save(footballer);
     }
 
     public void updateFootballer(Footballer footballer){
-        footballerRespository.save(footballer);
+        footballerRepository.save(footballer);
     }
 
     public void deleteFootballer(Footballer footballer){
-        footballerRespository.delete(footballer);
+        footballerRepository.delete(footballer);
+    }
+
+    public Set<FanDTO> getFans(long id){
+        Footballer footballer = footballerRepository.findById(id).get();
+        return footballer.getFans().stream().map(FanDTO::new).collect(Collectors.toSet());
     }
 }
